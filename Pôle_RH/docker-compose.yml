@@ -23,25 +23,28 @@ services:
     shm_size: "2gb"  # recommandé pour OpenVAS
 
   wireshark:
-    image: peakingblinders/wireshark_projet_pro:latest
+    image: wireshark_projet_pro:latest
     container_name: wireshark
     restart: unless-stopped
     tty: true
     stdin_open: true
-    command: tail -f /dev/null  # Laisse le conteneur tourner sans restart.
+    command: tail -f /dev/null
 
   msf:
-    image: peakingblinders/msf_projet_pro:latest
+    image: msf_projet_pro:latest
     container_name: msf
     restart: unless-stopped
     tty: true
     stdin_open: true
-    command: tail -f /dev/null  # Laisse le conteneur tourner sans lancer automatiquement msfconsole
+    command: tail -f /dev/null
 
   hydra:
-    image: peakingblinders/hydra_projet_pro:latest
+    image: hydra_projet_pro:latest
     container_name: hydra
     restart: unless-stopped
     tty: true
     stdin_open: true
-    command: tail -f /dev/null # Laisse le conteneur tourner sans restart.
+    command: tail -f /dev/null
+
+volumes:
+  openvas:
