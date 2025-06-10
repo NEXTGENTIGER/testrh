@@ -1,12 +1,26 @@
-version: '3.8'
+version: "3.8"
 
 services:
   openvas:
-    image: peakingblinders/openvas_projet_pro:latest
+    image: immauss/openvas:latest
     container_name: openvas
     ports:
-      - "443:443"
+      - "443:9392"
+    environment:
+      - PASSWORD=admin
+      - USERNAME=admin
+      - SMTPPORT=25
+      - REDISDBS=512
+      - QUIET=false
+      - NEWDB=false
+      - SKIPSYNC=true
+      - RESTORE=false
+      - DEBUG=false
+      - GMP=9390
+    volumes:
+      - openvas:/data
     restart: unless-stopped
+    shm_size: "2gb"  # recommandé pour OpenVAS
 
   wireshark:
     image: peakingblinders/wireshark_projet_pro:latest
