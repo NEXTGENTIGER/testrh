@@ -20,7 +20,7 @@ services:
     volumes:
       - openvas:/data
     restart: unless-stopped
-    shm_size: "2gb"
+    shm_size: "2gb"  # recommandé pour OpenVAS
 
   wireshark:
     image: peakingblinders/wireshark_projet_pro:latest
