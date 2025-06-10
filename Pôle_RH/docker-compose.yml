@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   openvas:
-    image: immauss/openvas:latest
+    image: immauss/openvas:latest  # OpenVAS libre
     container_name: openvas
     ports:
       - "443:9392"
@@ -23,15 +23,26 @@ services:
     shm_size: "2gb"  # recommandé pour OpenVAS
 
   wireshark:
-    image: peakingblinders/wireshark_projet_pro:latest
+    image: lscr.io/linuxserver/wireshark:latest  # Image libre Wireshark (nécessite configuration X11 pour GUI)
     container_name: wireshark
     restart: unless-stopped
-    tty: true
-    stdin_open: true
-    command: tail -f /dev/null
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - wireshark-config:/config
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - DISPLAY=$DISPLAY
 
   msf:
-    image: peakingblinders/msf_projet_pro:latest
+    image: metasploitframework/metasploit-framework:latest  # Image officielle Metasploit Framework
     container_name: msf
     restart: unless-stopped
     tty: true
@@ -39,7 +50,7 @@ services:
     command: tail -f /dev/null
 
   hydra:
-    image: peakingblinders/hydra_projet_pro:latest
+    image: trustedsec/commando-vm:latest  # Contient Hydra, mais un peu lourd
     container_name: hydra
     restart: unless-stopped
     tty: true
@@ -48,3 +59,4 @@ services:
 
 volumes:
   openvas:
+  wireshark-config:
